@@ -1,14 +1,13 @@
 package com.coderscampus.spoonacularassignment.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class SpoonacularMealResponse {
-    @JsonProperty
+public class SpoonacularMealPlanResponse {
     private List<Meal> meals;
     private Nutrients nutrients;
 
+//    Getters and Setters:
     public List<Meal> getMeals() {
         return meals;
     }
