@@ -1,4 +1,4 @@
-package com.coderscampus.spoonacularassignment.model.dto;
+package com.coderscampus.spoonacularassignment.model.domain;
 
 public class Nutrients {
 

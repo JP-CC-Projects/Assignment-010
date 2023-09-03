@@ -1,9 +1,12 @@
 package com.coderscampus.spoonacularassignment.model.dto;
 
 
+import com.coderscampus.spoonacularassignment.model.domain.Meal;
+import com.coderscampus.spoonacularassignment.model.domain.Nutrients;
+
 import java.util.List;
 
-public class SpoonacularMealPlanResponse {
+public class MealPlan {
     private List<Meal> meals;
     private Nutrients nutrients;
 

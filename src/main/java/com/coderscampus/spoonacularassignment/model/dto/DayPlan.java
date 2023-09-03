@@ -1,4 +1,4 @@
 package com.coderscampus.spoonacularassignment.model.dto;
 
-public class DayPlan extends SpoonacularMealPlanResponse {
+public class DayPlan extends MealPlan {
 }
