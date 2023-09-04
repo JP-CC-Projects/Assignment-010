@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spoonacular.urls.base",
+      "type": "java.lang.String",
+      "description": "Description for spoonacular.urls.base."
+  }
+] }

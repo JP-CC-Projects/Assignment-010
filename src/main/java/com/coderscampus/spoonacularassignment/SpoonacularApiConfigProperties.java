@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "spoonacular.urls")
-public class SpoonacularProperties {
+public class SpoonacularApiConfigProperties {
 
     /**
      * This is the Spoonacular API Base URL

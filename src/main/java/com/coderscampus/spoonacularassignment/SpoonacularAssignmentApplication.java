@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableConfigurationProperties(SpoonacularProperties.class)
+@EnableConfigurationProperties(SpoonacularApiConfigProperties.class)
 public class SpoonacularAssignmentApplication {
 
 	public static void main(String[] args) {
