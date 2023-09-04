@@ -1,9 +1,13 @@
 package com.coderscampus.spoonacularassignment.service;
 
 import com.coderscampus.spoonacularassignment.model.dto.DayPlan;
-import com.coderscampus.spoonacularassignment.model.dto.MealPlan;
 import com.coderscampus.spoonacularassignment.model.dto.WeekPlan;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,14 +29,14 @@ public class MealPlanService {
 
 
     public WeekPlan createWeekPlan(String numCalories, String diet, String exclusions) throws Exception{
-        String jsonString = getJsonFromSpoonacular("week", numCalories, diet, exclusions);
-        convertJsonStringToMealPlan(jsonString);
-        return null;
+        String weekPlanJsonString = getJsonFromSpoonacular("week", numCalories, diet, exclusions);
+        WeekPlan newWeekPlan = convertJsonStringToWeekPlanObject(weekPlanJsonString);
+        return newWeekPlan;
     }
     public DayPlan createDayPlan(String numCalories, String diet, String exclusions) throws Exception{
-        String jsonString = getJsonFromSpoonacular("day", numCalories, diet, exclusions);
-        convertJsonStringToMealPlan(jsonString);
-        return null;
+        String dayPlanJsonString = getJsonFromSpoonacular("day", numCalories, diet, exclusions);
+        DayPlan newDayPlan = convertJsonStringToDayPlanObject(dayPlanJsonString);
+        return newDayPlan;
     }
 
 
@@ -40,21 +44,24 @@ public class MealPlanService {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(SPOONACULAR_API_BASE_URL)
                 .path(SPOONACULAR_API_GENERATE_MEALPLAN_URL)
+                .queryParam("apiKey", "04e243470db9427eb3eb1f74203610f7")
                 .queryParam("timeFrame", timeFrame)
                 .queryParam("targetCalories", numCalories)
                 .queryParam("diet", diet)
                 .queryParam("exclude", exclusions)
                 .build()
                 .toUri();
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> mealPlan = restTemplate.getForEntity(uri, String.class);
-
-        return mealPlan.getBody();
+        ResponseEntity<String> mealPlanJsonResponse = restTemplate.getForEntity(uri, String.class);
+        return mealPlanJsonResponse.getBody();
     }
-    public MealPlan convertJsonStringToMealPlan(String jsonString) throws Exception {
-
+    public WeekPlan convertJsonStringToWeekPlanObject(String jsonString) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.readValue(jsonString, MealPlan.class);
-        String jsonStringViaObjectMapper = objectMapper.writeValueAsString(jsonString);
+        WeekPlan weekPlan = objectMapper.readValue(jsonString, WeekPlan.class);
+        return weekPlan;
+    }
+    public DayPlan convertJsonStringToDayPlanObject(String jsonString) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        DayPlan dayPlan = objectMapper.readValue(jsonString, DayPlan.class);
+        return dayPlan;
     }
 }
