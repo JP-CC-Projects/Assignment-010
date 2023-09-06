@@ -1,4 +1,5 @@
 package com.coderscampus.spoonacularassignment.service;
+import com.coderscampus.spoonacularassignment.SpoonacularApiConfigProperties;
 import com.coderscampus.spoonacularassignment.model.dto.DayPlan;
 import com.coderscampus.spoonacularassignment.model.dto.WeekPlan;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,16 +13,20 @@ import java.net.URI;
 
 @Service
 public class MealPlanService {
+
+
     @Value("${apiKey}")
     private String apiKey;
-    private final String SPOONACULAR_API_BASE_URL = "https://api.spoonacular.com/";
-    private final String SPOONACULAR_API_GENERATE_MEALPLAN_URL = "mealplanner/generate";
     private final RestTemplate restTemplate;
+    private final SpoonacularApiConfigProperties spoonacularApiConfigProperties;
 
     @Autowired
-    public MealPlanService(RestTemplate restTemplate) {
+    public MealPlanService(RestTemplate restTemplate, SpoonacularApiConfigProperties spoonacularApiConfigProperties) {
         this.restTemplate = restTemplate;
+        this.spoonacularApiConfigProperties = spoonacularApiConfigProperties;
     }
+
+
 
     public WeekPlan createWeekPlan(String numCalories, String diet, String exclusions) throws Exception{
         String weekPlanJsonString = getJsonFromSpoonacular("week", numCalories, diet, exclusions);
@@ -36,8 +41,8 @@ public class MealPlanService {
 
     public String getJsonFromSpoonacular(String timeFrame, String numCalories, String diet, String exclusions) {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(SPOONACULAR_API_BASE_URL)
-                .path(SPOONACULAR_API_GENERATE_MEALPLAN_URL)
+                .fromHttpUrl(spoonacularApiConfigProperties.getBase())
+                .path(spoonacularApiConfigProperties.getMealplan())
                 .queryParam("apiKey", apiKey)
                 .queryParam("timeFrame", timeFrame)
                 .queryParam("targetCalories", numCalories)
