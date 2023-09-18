@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @ComponentScan
@@ -18,7 +19,10 @@ public class MealPlanController {
     }
 
     @GetMapping("/mealplanner/week")
-    public ResponseEntity<WeekPlan> getWeekMeals(String numCalories, String diet, String exclusions) throws Exception {
+    public ResponseEntity<WeekPlan> getWeekMeals(
+            @RequestParam(required = false) String numCalories,
+            @RequestParam(required = false) String diet,
+            @RequestParam(required = false) String exclusions) throws Exception {
         WeekPlan weekplan = mealPlanService.createWeekPlan(numCalories, diet, exclusions);
         return ResponseEntity.ok(weekplan);
     }
